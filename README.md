@@ -1,1 +1,1 @@
-# consumer_affairs_monitor
+# consumer-affairs-monitor
