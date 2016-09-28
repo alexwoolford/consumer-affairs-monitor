@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class Crawler {
+public class ConsumerAffairsCrawler {
 
     @Autowired
     DbMapper dbMapper;
@@ -28,7 +28,7 @@ public class Crawler {
             System.out.println(url.toString());
             System.out.println(html);
 
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(30);
 
 
         }
