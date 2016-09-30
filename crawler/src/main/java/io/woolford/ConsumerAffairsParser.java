@@ -16,6 +16,8 @@ import java.util.List;
 
 public class ConsumerAffairsParser {
 
+    SentimentScorer sentimentScorer = new SentimentScorer();
+
     public List<ConsumerAffairsRecord> getAffairsRecords(String html) throws IOException, ParseException {
 
         Document doc = Jsoup.parse(html);
@@ -41,11 +43,14 @@ public class ConsumerAffairsParser {
 
             String content = reviewBlock.select("div.post-content").first().text().replace(" Helpful?YesNo", "");
 
+            Integer sentiment = sentimentScorer.getMainSentiment(content);
+
             ConsumerAffairsRecord consumerAffairsRecord = new ConsumerAffairsRecord();
             consumerAffairsRecord.setCompany(company);
             consumerAffairsRecord.setAuthor(author);
             consumerAffairsRecord.setTimestamp(timestamp);
             consumerAffairsRecord.setRating(rating);
+            consumerAffairsRecord.setSentiment(sentiment);
             consumerAffairsRecord.setContent(content);
 
             consumerAffairsRecordList.add(consumerAffairsRecord);

@@ -7,6 +7,7 @@ public class ConsumerAffairsRecord {
     private String author;
     private Long timestamp;
     private Integer rating;
+    private Integer sentiment;
     private String content;
 
     public String getCompany() {
@@ -41,6 +42,14 @@ public class ConsumerAffairsRecord {
         this.rating = rating;
     }
 
+    public Integer getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Integer sentiment) {
+        this.sentiment = sentiment;
+    }
+
     public String getContent() {
         return content;
     }
@@ -56,6 +65,7 @@ public class ConsumerAffairsRecord {
                 ", author='" + author + '\'' +
                 ", timestamp=" + timestamp +
                 ", rating=" + rating +
+                ", sentiment=" + sentiment +
                 ", content='" + content + '\'' +
                 '}';
     }
