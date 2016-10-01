@@ -22,8 +22,7 @@ public class ConsumerAffairsParser {
 
         Document doc = Jsoup.parse(html);
 
-        Element companyInfoBlock = doc.select("section.company-info").first().select("div.company-profile-contact").first();
-        String company = companyInfoBlock.select("dd").first().text();
+        String company = doc.select("section.company-info").first().select("div#basic-information").select("dd[itemprop=name]").text();
 
         List<ConsumerAffairsRecord> consumerAffairsRecordList = new ArrayList();
 
