@@ -1,8 +1,24 @@
 package io.woolford.db.entity;
 
+import org.apache.solr.client.solrj.beans.Field;
 
 public class ConsumerAffairsRecord {
 
+    public ConsumerAffairsRecord(){
+        // required for solrj to make an instance
+    }
+
+    public ConsumerAffairsRecord(String id, String company, String author, Long timestamp, Integer rating, Integer sentiment, String content){
+        this.id = id;
+        this.company = company;
+        this.author = author;
+        this.timestamp = timestamp;
+        this.rating = rating;
+        this.sentiment = sentiment;
+        this.content = content;
+    }
+
+    private String id;
     private String company;
     private String author;
     private Long timestamp;
@@ -10,10 +26,20 @@ public class ConsumerAffairsRecord {
     private Integer sentiment;
     private String content;
 
+    public String getId() {
+        return id;
+    }
+
+    @Field("id")
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getCompany() {
         return company;
     }
 
+    @Field("company")
     public void setCompany(String company) {
         this.company = company;
     }
@@ -22,6 +48,7 @@ public class ConsumerAffairsRecord {
         return author;
     }
 
+    @Field("author")
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -30,6 +57,7 @@ public class ConsumerAffairsRecord {
         return timestamp;
     }
 
+    @Field("timestamp")
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
@@ -38,6 +66,7 @@ public class ConsumerAffairsRecord {
         return rating;
     }
 
+    @Field("rating")
     public void setRating(Integer rating) {
         this.rating = rating;
     }
@@ -46,6 +75,7 @@ public class ConsumerAffairsRecord {
         return sentiment;
     }
 
+    @Field("sentiment")
     public void setSentiment(Integer sentiment) {
         this.sentiment = sentiment;
     }
@@ -54,6 +84,7 @@ public class ConsumerAffairsRecord {
         return content;
     }
 
+    @Field("content")
     public void setContent(String content) {
         this.content = content;
     }
@@ -61,7 +92,8 @@ public class ConsumerAffairsRecord {
     @Override
     public String toString() {
         return "ConsumerAffairsRecord{" +
-                "company='" + company + '\'' +
+                "id='" + id + '\'' +
+                ", company='" + company + '\'' +
                 ", author='" + author + '\'' +
                 ", timestamp=" + timestamp +
                 ", rating=" + rating +

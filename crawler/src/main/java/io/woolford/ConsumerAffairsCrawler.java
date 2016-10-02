@@ -3,6 +3,8 @@ package io.woolford;
 import io.woolford.db.entity.CategoryCompanyRecord;
 import io.woolford.db.entity.ConsumerAffairsRecord;
 import io.woolford.db.mapper.DbMapper;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -25,9 +27,12 @@ public class ConsumerAffairsCrawler {
     @Autowired
     DbMapper dbMapper;
 
+    @Autowired
+    SolrClient solrClient;
+
 //    @Scheduled(fixedDelay = 30000L)
     @PostConstruct
-    public void main() throws IOException, InterruptedException, ParseException {
+    public void crawl() throws IOException, InterruptedException, ParseException, SolrServerException {
 
         ConsumerAffairsParser consumerAffairsParser = new ConsumerAffairsParser();
 
@@ -45,8 +50,8 @@ public class ConsumerAffairsCrawler {
                 List<ConsumerAffairsRecord> consumerAffairsRecordList = consumerAffairsParser.getAffairsRecords(html);
 
                 for (ConsumerAffairsRecord consumerAffairsRecord : consumerAffairsRecordList){
-                    //TODO: write to Solr
-                    System.out.println(consumerAffairsRecord);
+                    solrClient.addBean(consumerAffairsRecord);
+                    solrClient.commit();
                 }
 
                 url = nextURL(html);

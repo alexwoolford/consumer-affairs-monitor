@@ -1,6 +1,11 @@
 package io.woolford;
 
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.Funnel;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
+import com.google.common.hash.PrimitiveSink;
 import io.woolford.db.entity.ConsumerAffairsRecord;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -52,6 +57,13 @@ public class ConsumerAffairsParser {
             consumerAffairsRecord.setSentiment(sentiment);
             consumerAffairsRecord.setContent(content);
 
+            // create record ID (MD5 hash of company/author/timestamp/rating/sentiment/content)
+            Hasher hasher = Hashing.md5().newHasher();
+            hasher.putObject(consumerAffairsRecord, consumerAffairsRecordFunnel);
+            String md5 = hasher.hash().toString();
+
+            consumerAffairsRecord.setId(md5);
+
             consumerAffairsRecordList.add(consumerAffairsRecord);
 
         }
@@ -59,5 +71,18 @@ public class ConsumerAffairsParser {
         return consumerAffairsRecordList;
 
     }
+
+    Funnel<ConsumerAffairsRecord> consumerAffairsRecordFunnel = new Funnel<ConsumerAffairsRecord>() {
+        @Override
+        public void funnel(ConsumerAffairsRecord consumerAffairsRecord, PrimitiveSink into) {
+            into
+                    .putString(consumerAffairsRecord.getCompany(), Charsets.UTF_8)
+                    .putString(consumerAffairsRecord.getAuthor(), Charsets.UTF_8)
+                    .putLong(consumerAffairsRecord.getTimestamp())
+                    .putInt(consumerAffairsRecord.getRating())
+                    .putInt(consumerAffairsRecord.getSentiment())
+                    .putString(consumerAffairsRecord.getContent(), Charsets.UTF_8);
+        }
+    };
 
 }
